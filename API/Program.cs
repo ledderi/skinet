@@ -1,13 +1,39 @@
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            IHost host = CreateHostBuilder(args).Build();
+
+            using (IServiceScope scope = host.Services.CreateScope())
+            {
+                IServiceProvider services = scope.ServiceProvider;
+                ILoggerFactory loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+                try
+                {
+                    StoreContext context = services.GetRequiredService<StoreContext>();
+                    await context.Database.MigrateAsync();
+                    await SeedStoreContext.SeedDataAsync(context, loggerFactory);
+                }
+                catch(Exception ex)
+                {
+                    ILogger<Program> logger = loggerFactory.CreateLogger<Program>();
+                    logger.LogError(ex, "An error occured during migration!");
+                }
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
