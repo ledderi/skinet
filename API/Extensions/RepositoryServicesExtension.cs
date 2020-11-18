@@ -11,8 +11,8 @@ namespace API.Extensions
         public static void AddRepositoryServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(configuration.GetConnectionString("skinet")));
-            
-            services.AddScoped<IProductsRepository, ProductsRepository>();
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
     }
 }
