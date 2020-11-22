@@ -23,7 +23,7 @@ namespace Infrastructure.Data
             Product product = await _context.Products
                 .Include(p => p.ProductBrand)
                 .Include(p => p.ProductType)
-                .SingleOrDefaultAsync(p => p.Id == id);                
+                .SingleOrDefaultAsync(p => p.Id == id);
                 
             return product;
         }

@@ -1,10 +1,12 @@
-﻿using Core.Entities;
+﻿using API.Dtos;
+using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
-using Infrastructure.Data;
+using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -16,27 +18,48 @@ namespace API.Controllers
         private readonly IGenericRepository<Product> _productsRepository;
         private readonly IGenericRepository<ProductBrand> _productBrandsRepository;
         private readonly IGenericRepository<ProductType> _productTypesRepository;
+        private readonly ILogger<ProductsController> _logger;
+        private readonly IMapper _mapper;
 
         public ProductsController(IGenericRepository<Product> productsRepository,
-            IGenericRepository<ProductBrand> productBrandsRepository, IGenericRepository<ProductType> productTypesRepository)
+            IGenericRepository<ProductBrand> productBrandsRepository, IGenericRepository<ProductType> productTypesRepository, 
+            ILogger<ProductsController> logger, IMapper mapper)
         {
+            _logger = logger;
+            _mapper = mapper;
             _productsRepository = productsRepository;
             _productTypesRepository = productTypesRepository;
             _productBrandsRepository = productBrandsRepository;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            Product product = await _productsRepository.GetItemByIdAsync(id);
-            return Ok(product);
+            IActionResult result = null;
+
+            try
+            {
+                ProductSpecification productSpecification = new ProductSpecification(id);
+                Product product = await _productsRepository.GetEntityWithSpecAsync(productSpecification);
+                ProductDto productDto = _mapper.Map<ProductDto>(product);
+                result = Ok(productDto);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An error occured trying to fetch product item");
+                result = BadRequest(ex.Message);
+            }
+            
+            return result;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
         {
-            IEnumerable<Product> products = await _productsRepository.GetAllItemsAsync();
-            return Ok(products);
+            ProductSpecification productSpecification = new ProductSpecification();
+            IEnumerable<Product> products = await _productsRepository.GetEntitiesWithSpecAsync(productSpecification);
+            IEnumerable<ProductDto> productsDto = _mapper.Map<IEnumerable<ProductDto>>(products);
+            return Ok(productsDto);
         }
 
         [HttpGet("brands")]
