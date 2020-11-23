@@ -11,9 +11,8 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+    
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productsRepository;
         private readonly IGenericRepository<ProductBrand> _productBrandsRepository;
@@ -21,9 +20,12 @@ namespace API.Controllers
         private readonly ILogger<ProductsController> _logger;
         private readonly IMapper _mapper;
 
-        public ProductsController(IGenericRepository<Product> productsRepository,
-            IGenericRepository<ProductBrand> productBrandsRepository, IGenericRepository<ProductType> productTypesRepository, 
-            ILogger<ProductsController> logger, IMapper mapper)
+        public ProductsController(
+            IMapper mapper,
+            ILogger<ProductsController> logger,
+            IGenericRepository<Product> productsRepository,
+            IGenericRepository<ProductType> productTypesRepository,
+            IGenericRepository<ProductBrand> productBrandsRepository)
         {
             _logger = logger;
             _mapper = mapper;

@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Helper;
+using API.Middlewares;
 using AutoMapper;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace API
 {
@@ -24,8 +24,12 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRepositoryServices(_configuration);
             services.AddControllers();
+
+            services.AddDbContext<StoreContext>(options => options.UseSqlServer(_configuration.GetConnectionString("skinet")));
+
+            services.ConfigureApplicationServices();
+
             services.AddSwaggerService();
             services.AddAutoMapper(typeof(MappingProfile));
         }
@@ -35,9 +39,13 @@ namespace API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
                 app.UseSwaggerService();
             }
+
+            app.UseMiddleware<ApiExceptionErrorMiddleware>();
+
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
