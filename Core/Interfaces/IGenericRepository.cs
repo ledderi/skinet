@@ -12,5 +12,6 @@ namespace Core.Interfaces
 
         Task<T> GetEntityWithSpecAsync(ISpecification<T> specification);
         Task<IEnumerable<T>> GetEntitiesWithSpecAsync(ISpecification<T> specification);
+        Task<int> GetTotalCountAsync(ISpecification<T> specification);
     }
 }

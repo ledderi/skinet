@@ -47,6 +47,7 @@ namespace API
 
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
+            app.UseCors("corsPolicy");
             app.UseHttpsRedirection();
 
             app.UseRouting();

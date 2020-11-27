@@ -1,4 +1,5 @@
 ﻿using API.Dtos;
+using API.Helper;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -37,7 +38,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            IActionResult result = null;
+            IActionResult result;
 
             try
             {
@@ -56,12 +57,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
+        public async Task<ActionResult<QueryResult<ProductDto>>> GetProducts([FromQuery] ProductSpecParams spec)
         {
-            ProductSpecification productSpecification = new ProductSpecification();
+            ProductSpecification productSpecification = new ProductSpecification(spec);
             IEnumerable<Product> products = await _productsRepository.GetEntitiesWithSpecAsync(productSpecification);
             IEnumerable<ProductDto> productsDto = _mapper.Map<IEnumerable<ProductDto>>(products);
-            return Ok(productsDto);
+
+            ProductPagingSpecification pagingSpec = new ProductPagingSpecification(spec);
+            int totalCount = await _productsRepository.GetTotalCountAsync(pagingSpec);
+
+            QueryResult<ProductDto> queryResult = 
+                new QueryResult<ProductDto> { Count = totalCount, Data = productsDto, PageIndex = spec.PageIndex, PageSize = spec.PageSize };
+
+            return Ok(queryResult);
         }
 
         [HttpGet("brands")]

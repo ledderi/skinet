@@ -2,7 +2,6 @@
 using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
@@ -12,19 +11,32 @@ namespace Infrastructure.Data
         {
             IQueryable<TEntity> query = context.Set<TEntity>();
 
-            if (specification.Creteria != null)
+            if (specification.Creterias.Any())
             {
-                query = query.Where(specification.Creteria);
+                query = specification.Creterias.Aggregate(query, (current, creteria) => current.Where(creteria));
             }
 
             if (specification.Includes.Any())
             {
-                //foreach (var include in specification.Includes)
-                //{
-                //    query = query.Include(include);
-                //}
-
                 query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            if (specification.OrderBy != null)
+            {
+                if (specification.OrderDirection == "desc")
+                {
+                    query = query.OrderByDescending(specification.OrderBy);
+                }
+                else
+                {
+                    query = query.OrderBy(specification.OrderBy);
+                }
+            }
+
+            if (specification.PageIndex.HasValue && specification.PageSize.HasValue)
+            {
+                query = query.Skip((((int)specification.PageIndex - 1) * (int)specification.PageSize))
+                    .Take((int)specification.PageSize);
             }
 
             return query;

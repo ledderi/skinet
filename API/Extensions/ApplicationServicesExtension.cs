@@ -18,6 +18,11 @@ namespace API.Extensions
             {
                 options.InvalidModelStateResponseFactory = actionContext => CheckModelState(actionContext);
             });
+
+            services.AddCors(setup =>
+            {
+                setup.AddPolicy("corsPolicy", conf => conf.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://localhost:4200"));
+            });
         }
 
         private static IActionResult CheckModelState(ActionContext context)

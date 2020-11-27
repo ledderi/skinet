@@ -42,6 +42,12 @@ namespace Infrastructure.Data
             return await queryEvaluation.ToArrayAsync();
         }
 
+        public async Task<int> GetTotalCountAsync(ISpecification<TEntity> specification)
+        {
+            IQueryable<TEntity> queryEvaluation = ApplySpecification(specification);
+            return await queryEvaluation.CountAsync();
+        }
+
         private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification)
         {
             return SpecificationEvaluator<TEntity>.Evaluate(specification, _context);
