@@ -1,0 +1,45 @@
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    nav {
+        a {
+            font-size: larger;
+            text-decoration: none;
+        }
+    }
+
+    img {
+        width: 9rem;
+        max-height: 70px;
+    }
+
+    .cart {
+        position: relative;
+
+        i {            
+            color: black;
+        }
+        p {
+            background-color: blue;
+            color: white;
+            border-radius: 50%;
+            min-width: 25px;
+            min-height: 25px;
+            text-align: center;
+            font-size: 1em;
+            position: absolute;
+            top: -10px;
+            right: -22px;
+            margin: 0px;
+        }
+    }
+
+    .sign {
+        :nth-child(2) {
+            margin-left: 1rem;
+        }
+    }
+}
