@@ -1,0 +1,6 @@
+<span *ngIf="pagingResult?.count > 0; else nothingFound">
+    Showing <strong>{{ pagingResult?.data.length < pagingResult?.pageSize ? 1 : ((pagingResult?.pageIndex - 1) * pagingResult?.pageSize) + 1 }}</strong>
+    to <strong>{{ pagingResult?.data.length < pagingResult?.pageSize ? pagingResult?.data.length : pagingResult?.pageIndex * pagingResult?.pageSize }}</strong>
+    of <strong>{{ pagingResult?.count }}</strong> Results
+</span>
+<ng-template #nothingFound>There are <strong>0</strong> results for this filter</ng-template>
