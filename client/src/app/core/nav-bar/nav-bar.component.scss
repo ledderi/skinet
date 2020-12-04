@@ -8,12 +8,24 @@
         a {
             font-size: larger;
             text-decoration: none;
+            color: #343a40;
+
+            &.active-link {
+                color: orange;
+            }
         }
     }
 
     img {
         width: 9rem;
         max-height: 70px;
+        
+        &:focus {
+            outline: none;
+        }
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     .cart {
