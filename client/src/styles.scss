@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+
+ol.xng-breadcrumb-list {
+    align-items: baseline;
+}
+
+.xng-breadcrumb-link {
+    text-decoration: none!important;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+label.xng-breadcrumb-trail {
+    color: orange;
+}

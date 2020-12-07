@@ -1,0 +1,14 @@
+<ng-container *ngIf="(breadcrumb$ | async) as breadcrumb">
+    <section class="section-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-9">
+                    <h2>{{ breadcrumb[breadcrumb.length - 1]?.label }}</h2>
+                </div>
+                <div class="col-3">
+                    <xng-breadcrumb></xng-breadcrumb>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>
