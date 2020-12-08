@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { IProduct } from 'src/app/shared/models/product';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-product-item',
@@ -11,7 +12,7 @@ import { IProduct } from 'src/app/shared/models/product';
 export class ProductItemComponent implements OnInit {
   @Input() product: IProduct;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private bc: BreadcrumbService) { }
 
   ngOnInit(): void {
   }

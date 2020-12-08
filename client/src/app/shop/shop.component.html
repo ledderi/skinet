@@ -1,40 +1,46 @@
-<div class="row shop">
-    <section class="col-3">
-        <div class="form-group">
-            <label for="sort">Sort</label>
-            <select id="sort" class="form-control" (change)="sortSelected($event.target.value)">
-                <option selected value="1">Alphabetical</option>
-                <option value="2">Price: Low to High</option>
-                <option value="3">Price: High to Low</option>
-            </select>
-        </div>
-        <ul class="list-group brands">
-            <li class="list-group-item disabled" aria-disabled="true">Brands</li>
-            <li class="list-group-item" *ngFor="let brand of brands" [value]="brand.id" [ngClass]="{active: brand.id === selectedBrand}" (click)="selectBrand(brand.id)">{{ brand.name }}</li>
-        </ul>
-        <ul class="list-group types">
-            <li class="list-group-item disabled" aria-disabled="true">Types</li>
-            <li class="list-group-item" *ngFor="let type of types" [value]="type.id" [ngClass]="{active: type.id === selectedType}" (click)="selectType(type.id)">{{ type.name }}</li>
-        </ul>
-    </section>
-
-    <section class="col-9 product">
-        <div class="header">
-            <header class="result-caption">
-                <app-pagination-header [pagingResult]="queryResult"></app-pagination-header>
-            </header>
-            <div class="search">
-                <input type="text" class="form-control" #search placeholder="Search" (keyup.enter)="searchProducts()">
-                <button class="btn btn-outline-primary" (click)="searchProducts()">Search</button>
-                <button class="btn btn-outline-secondary" (click)="clearSearch()">Reset</button>
+<div class="container">
+    <div class="row shop" *ngIf="showDetails">
+        <section class="col-3">
+            <div class="form-group">
+                <label for="sort">Sort</label>
+                <select id="sort" class="form-control" (change)="sortSelected($event.target.value)">
+                    <option selected value="1">Alphabetical</option>
+                    <option value="2">Price: Low to High</option>
+                    <option value="3">Price: High to Low</option>
+                </select>
             </div>
-        </div>
+            <ul class="list-group brands">
+                <li class="list-group-item disabled" aria-disabled="true">Brands</li>
+                <li class="list-group-item" *ngFor="let brand of brands" [value]="brand.id" [ngClass]="{ active: brand.id === selectedBrand }" (click)="selectBrand(brand.id)">
+                    {{ brand.name }}
+                </li>
+            </ul>
+            <ul class="list-group types">
+                <li class="list-group-item disabled" aria-disabled="true">Types</li>
+                <li class="list-group-item" *ngFor="let type of types" [value]="type.id" [ngClass]="{ active: type.id === selectedType }" (click)="selectType(type.id)">
+                    {{ type.name }}
+                </li>
+            </ul>
+        </section>
 
-        <div class="row">
-            <div class="col-4 products" *ngFor="let product of products">
-                <app-product-item [product]="product"></app-product-item>
+        <section class="col-9 product">
+            <div class="header">
+                <header class="result-caption">
+                    <app-pagination-header [pagingResult]="queryResult"></app-pagination-header>
+                </header>
+                <div class="search">
+                    <input type="text" class="form-control" #search placeholder="Search" (keyup.enter)="searchProducts()" />
+                    <button class="btn btn-outline-primary" (click)="searchProducts()">Search</button>
+                    <button class="btn btn-outline-secondary" (click)="clearSearch()">Reset</button>
+                </div>
             </div>
-        </div>
-        <app-pagination [pagingResult]="queryResult" (pageChanged)="pageChanged($event)"></app-pagination>
-    </section>
+
+            <div class="row">
+                <div class="col-4 products" *ngFor="let product of products">
+                    <app-product-item [product]="product"></app-product-item>
+                </div>
+            </div>
+            <app-pagination [pagingResult]="queryResult" (pageChanged)="pageChanged($event)"></app-pagination>
+        </section>
+    </div>
 </div>

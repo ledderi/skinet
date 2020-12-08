@@ -14,7 +14,9 @@ import { ShopService } from '../shop.service';
 export class ProductDetailsComponent implements OnInit {
   product: IProduct;
 
-  constructor(private activateRoute: ActivatedRoute, private shopService: ShopService, private breadcrumbService: BreadcrumbService) { }
+  constructor(private activateRoute: ActivatedRoute, private shopService: ShopService, private breadcrumbService: BreadcrumbService) {
+    this.breadcrumbService.set('@productName', ' ' );
+  }
 
   ngOnInit(): void {
     const id = +this.activateRoute.snapshot.paramMap.get('id');

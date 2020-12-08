@@ -21,6 +21,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   selectedBrand = 0;
   selectedType = 0;
   queryResult: IQueryResult<IProduct>;
+  showDetails = false;
 
   private query: IQueryRequest;
   private subscription: Subscription;
@@ -40,6 +41,7 @@ export class ShopComponent implements OnInit, OnDestroy {
       this.brands = [{ id: 0, name: 'All'}, ...result[1]];
       this.queryResult = result[2];
       this.products = result[2].data;
+      this.showDetails = true;
     }, err => {
       console.log(err);
     });
