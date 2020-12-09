@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Redis;
 
 namespace API
 {
@@ -27,9 +28,13 @@ namespace API
             services.AddControllers();
 
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(_configuration.GetConnectionString("skinet")));
+            services.AddSingleton<IConnectionMultiplexer>(conf =>
+            {
+                ConfigurationOptions configuration = ConfigurationOptions.Parse(_configuration.GetConnectionString("redis"), true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             services.ConfigureApplicationServices();
-
             services.AddSwaggerService();
             services.AddAutoMapper(typeof(MappingProfile));
         }
