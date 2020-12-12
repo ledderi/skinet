@@ -6,9 +6,12 @@
         <a class="p-2" routerLink="/shop" routerLinkActive="active-link">shop</a>
         <a class="p-2" routerLink="/test-error" routerLinkActive="active-link">Errors</a>
     </nav>
-    <a href="#" class="cart">
+    
+    <a routerLink="/basket" class="cart">
         <i class="fa fa-shopping-cart fa-2x"></i>
-        <p>5</p>
+        <div *ngIf="(cartSize$ | async) as cartSize">
+            <p *ngIf="cartSize > 0">{{ cartSize }}</p>
+        </div>
     </a>
     <div class="sign">
         <a class="btn btn-outline-secondary" href="#">Login</a>

@@ -1,0 +1,85 @@
+<div class="container basket">
+    <div *ngIf="(basket$ | async) === null">
+        <p>There are no items in your basket!</p>
+    </div>
+    <div *ngIf="basket$ | async as basket">
+        <div class="row">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr class="header">
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="body" *ngFor="let item of basket.items">
+                        <td>
+                            <img src="{{ item.pictureUrl }}">
+                            <div class="product-name">
+                                <a routerLink="/shop/{{ item.productId }}">{{ item.productName }}</a>
+                                <div>Type: {{ item.type }}</div>
+                            </div>
+                        </td>
+                        <td><strong>{{ item.price | currency}}</strong></td>
+                        <td>
+                            <div>
+                                <i class="fa fa-minus-circle" (click)="decrementProductQuantity(item)"></i>
+                                <div class="quantity"><strong>{{ item.quantity }}</strong></div>
+                                <i class="fa fa-plus-circle" (click)="incrementProductQuantity(item)"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <strong>{{ item.price * item.quantity | currency }}</strong>
+                        </td>
+                        <td>
+                            <i class="fa fa-trash" (click)="deleteProduct(item)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-7"></div>
+            <div class="col-5">
+                <table class="table order-summary" *ngIf="basketTotals$ | async as basketTotals">
+                    <thead class="table-light">
+                        <tr>
+                            <th><strong>Order Summary</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="message">Shipping costs will be added depending on choices made during checkout</div>
+                                <div class="totals">
+                                    <div class="title"><strong>Order Subtotal</strong></div>
+                                    <div><strong>{{ basketTotals.subTotal | currency}}</strong></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="totals">
+                                    <div class="title"><strong>Shipping and handling</strong></div>
+                                    <div><strong>{{ basketTotals.shipping | currency}}</strong></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="totals">
+                                    <div class="title"><strong>Total</strong></div>
+                                    <div><strong>{{ basketTotals.shipping + basketTotals.subTotal | currency}}</strong></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div><button class="btn btn-outline-warning" routerLink="/checkout"><strong>Proceed to checkout</strong></button></div>
+            </div>
+        </div>
+    </div>
+</div>

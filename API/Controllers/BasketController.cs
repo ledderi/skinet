@@ -19,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<CustomerBasket> GetCustomerBasket(string basketId)
+        public async Task<CustomerBasket> GetCustomerBasket([FromQuery] string basketId)
         {
             return await _basketRepository.GetBasketAsync(basketId);
         }
@@ -31,7 +31,7 @@ namespace API.Controllers
             return Ok(customerBasket);
         }
 
-        [HttpDelete]
+        [HttpDelete("{basketId}")]
         public async Task<ActionResult<bool>> DeleteBasket(string basketId)
         {
             bool deleted = await _basketRepository.DeleteBasketAsync(basketId);

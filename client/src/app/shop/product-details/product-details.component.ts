@@ -5,6 +5,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 
 import { IProduct } from 'src/app/shared/models/product';
 import { ShopService } from '../shop.service';
+import { BasketService } from 'src/app/basket/basket.service';
 
 @Component({
   selector: 'app-product-details',
@@ -13,8 +14,10 @@ import { ShopService } from '../shop.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product: IProduct;
+  quantity = 1;
 
-  constructor(private activateRoute: ActivatedRoute, private shopService: ShopService, private breadcrumbService: BreadcrumbService) {
+  constructor(private activateRoute: ActivatedRoute, private shopService: ShopService,
+              private breadcrumbService: BreadcrumbService, private basketService: BasketService) {
     this.breadcrumbService.set('@productName', ' ' );
   }
 
@@ -25,6 +28,20 @@ export class ProductDetailsComponent implements OnInit {
       this.breadcrumbService.set('@productName', product.name );
       this.product = product;
     }, err => console.log(err));
+  }
+
+  incrementQuantity(): void {
+    this.quantity++;
+  }
+
+  decrementQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  addToCart(): void {
+    this.basketService.addToCart(this.product, this.quantity);
   }
 
 }
