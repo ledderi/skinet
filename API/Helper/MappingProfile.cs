@@ -1,10 +1,7 @@
 ﻿using API.Dtos;
 using AutoMapper;
 using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.Entities.Identity;
 
 namespace API.Helper
 {
@@ -16,6 +13,11 @@ namespace API.Helper
                 .ForMember(p => p.ProductType, src => src.MapFrom(p => p.ProductType.Name))
                 .ForMember(p => p.ProductBrand, src => src.MapFrom(p => p.ProductBrand.Name))
                 .ForMember(p => p.PictureUrl, src => src.MapFrom<ProductUrlResolver>());
+
+            CreateMap<Address, AddressDto>().ReverseMap();
+
+            CreateMap<AppUser, UserDto>()
+                .ForMember(p => p.Token, src => src.MapFrom<TokenResolver>());
         }
     }
 }
