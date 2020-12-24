@@ -12,6 +12,10 @@ export class LoadingInterceptorService implements HttpInterceptor {
     constructor(private spinnerService: NgxSpinnerService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.url.indexOf('emailexist') > -1) {
+            return next.handle(req);
+        }
+
         this.spinnerService.show(undefined, { type: 'timer' });
 
         return next.handle(req).pipe(

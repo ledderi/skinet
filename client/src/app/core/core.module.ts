@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { ToastrModule } from 'ngx-toastr';
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { SharedModule } from '../shared/shared.module';
@@ -21,7 +22,8 @@ import { SectionHeaderComponent } from './components/section-header/section-head
   imports: [
     SharedModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right', preventDuplicates: true }),
-    BreadcrumbModule
+    BreadcrumbModule,
+    BsDropdownModule.forRoot()
   ],
   exports: [
     NavBarComponent,

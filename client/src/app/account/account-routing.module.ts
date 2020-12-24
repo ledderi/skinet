@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CheckoutComponent } from './checkout.component';
-import { IsUserAuthorized } from './user-authorized.guard';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-  { path: '', component: CheckoutComponent, canActivate: [IsUserAuthorized] }
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({
@@ -19,4 +20,4 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class CheckoutRoutingModule { }
+export class AccountRoutingModule { }

@@ -7,11 +7,13 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { PaginationHeaderComponent } from './components/pagination-header/pagination-header.component';
 import { RouterModule } from '@angular/router';
+import { TextInputComponent } from './components/text-input/text-input.component';
 
 @NgModule({
   declarations: [
     PaginationComponent,
-    PaginationHeaderComponent
+    PaginationHeaderComponent,
+    TextInputComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     PaginationModule,
     PaginationComponent,
-    PaginationHeaderComponent
+    PaginationHeaderComponent,
+    TextInputComponent
   ]
 })
 export class SharedModule { }

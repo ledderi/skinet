@@ -1,0 +1,15 @@
+<form class="form-signup center" [formGroup]="form" (ngSubmit)="register()">
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+    </div>
+
+    <app-text-input formControlName="displayName" inputType="text" label="Display Name"></app-text-input>
+    <app-text-input formControlName="email" inputType="text" label="Email Address"></app-text-input>
+    <app-text-input formControlName="password" [inputType]="'password'" [label]="'Password'"></app-text-input>
+
+    <div *ngIf="loginFailed" class="text-danger">{{ errorMessage }}</div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="form.invalid">
+        Register
+    </button>
+</form>

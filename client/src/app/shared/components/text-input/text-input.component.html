@@ -1,0 +1,13 @@
+<div class="form-label-group">
+    <input #input [type]="inputType" class="form-control" placeholder="label" 
+        (input)="onChange($event.target.value)" 
+        (blur)="onTouched()" 
+        [ngClass]="{'is-invalid': isInValid(), 'is-valid': isValid() }" />
+    <label>{{ label }}</label>
+    <div class="spinner-border loader" role="status" *ngIf="isPending()"></div>
+    <div class="invalid-feedback" *ngIf="isInValid()">
+        <span *ngIf="controlDir.control.errors.required">{{ controlDir.name }} is required</span>
+        <span *ngIf="controlDir.control.errors.email">invalid {{ controlDir.name }}</span>
+        <span *ngIf="controlDir.control.errors.emailExist">{{ controlDir.name }} exist</span>
+    </div>
+</div>
