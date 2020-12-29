@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.Order;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,6 +20,7 @@ namespace Infrastructure.Data
                 await RetrieveDataAsync<ProductBrand>(context, "../Infrastructure/Data/SeedData/brands.json");
                 await RetrieveDataAsync<ProductType>(context, "../Infrastructure/Data/SeedData/types.json");
                 await RetrieveDataAsync<Product>(context, "../Infrastructure/Data/SeedData/products.json");
+                await RetrieveDataAsync<DeliveryMethod>(context, "../Infrastructure/Data/SeedData/deliveryMethods.json");
             }
             catch(Exception ex)
             {

@@ -15,24 +15,15 @@ namespace API.Controllers
     
     public class ProductsController : BaseApiController
     {
-        private readonly IGenericRepository<Product> _productsRepository;
-        private readonly IGenericRepository<ProductBrand> _productBrandsRepository;
-        private readonly IGenericRepository<ProductType> _productTypesRepository;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ProductsController(
-            IMapper mapper,
-            ILogger<ProductsController> logger,
-            IGenericRepository<Product> productsRepository,
-            IGenericRepository<ProductType> productTypesRepository,
-            IGenericRepository<ProductBrand> productBrandsRepository)
+        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ProductsController> logger)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _productsRepository = productsRepository;
-            _productTypesRepository = productTypesRepository;
-            _productBrandsRepository = productBrandsRepository;
         }
 
         [HttpGet("{id}")]
@@ -43,7 +34,7 @@ namespace API.Controllers
             try
             {
                 ProductSpecification productSpecification = new ProductSpecification(id);
-                Product product = await _productsRepository.GetEntityWithSpecAsync(productSpecification);
+                Product product = await _unitOfWork.Repository<Product>().GetEntityWithSpecAsync(productSpecification);
                 ProductDto productDto = _mapper.Map<ProductDto>(product);
                 result = Ok(productDto);
             }
@@ -60,11 +51,11 @@ namespace API.Controllers
         public async Task<ActionResult<QueryResult<ProductDto>>> GetProducts([FromQuery] ProductSpecParams spec)
         {
             ProductSpecification productSpecification = new ProductSpecification(spec);
-            IEnumerable<Product> products = await _productsRepository.GetEntitiesWithSpecAsync(productSpecification);
+            IEnumerable<Product> products = await _unitOfWork.Repository<Product>().GetEntitiesWithSpecAsync(productSpecification);
             IEnumerable<ProductDto> productsDto = _mapper.Map<IEnumerable<ProductDto>>(products);
 
             ProductPagingSpecification pagingSpec = new ProductPagingSpecification(spec);
-            int totalCount = await _productsRepository.GetTotalCountAsync(pagingSpec);
+            int totalCount = await _unitOfWork.Repository<Product>().GetTotalCountAsync(pagingSpec);
 
             QueryResult<ProductDto> queryResult = 
                 new QueryResult<ProductDto> { Count = totalCount, Data = productsDto, PageIndex = spec.PageIndex, PageSize = spec.PageSize };
@@ -75,28 +66,28 @@ namespace API.Controllers
         [HttpGet("brands")]
         public async Task<ActionResult<IEnumerable<ProductBrand>>> GetProductBrands()
         {
-            IEnumerable<ProductBrand> productBrands = await _productBrandsRepository.GetAllItemsAsync();
+            IEnumerable<ProductBrand> productBrands = await _unitOfWork.Repository<ProductBrand>().GetAllItemsAsync();
             return Ok(productBrands);
         }
 
         [HttpGet("brands/{id}")]
         public async Task<ActionResult<ProductBrand>> GetBrand(int id)
         {
-            ProductBrand productBrand = await _productBrandsRepository.GetItemByIdAsync(id);
+            ProductBrand productBrand = await _unitOfWork.Repository<ProductBrand>().GetItemByIdAsync(id);
             return Ok(productBrand);
         }
 
         [HttpGet("types")]
         public async Task<ActionResult<IEnumerable<ProductType>>> GetProductTypes()
         {
-            IEnumerable<ProductType> productTypes = await _productTypesRepository.GetAllItemsAsync();
+            IEnumerable<ProductType> productTypes = await _unitOfWork.Repository<ProductType>().GetAllItemsAsync();
             return Ok(productTypes);
         }
 
         [HttpGet("types/{id}")]
         public async Task<ActionResult<ProductType>> GetType(int id)
         {
-            ProductType productType = await _productTypesRepository.GetItemByIdAsync(id);
+            ProductType productType = await _unitOfWork.Repository<ProductType>().GetItemByIdAsync(id);
             return Ok(productType);
         }
     }

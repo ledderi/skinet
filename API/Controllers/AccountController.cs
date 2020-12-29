@@ -1,15 +1,13 @@
 ﻿using API.Dtos;
 using API.Errors;
+using API.Extensions;
 using AutoMapper;
 using Core.Entities.Identity;
-using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -31,7 +29,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            string email = this.GetEmailFromClaimsPrincipal();
+            string email = HttpContext.User.GetUserEmail();
             AppUser user = await _userManager.FindByEmailAsync(email);
             UserDto userDto = _mapper.Map<AppUser, UserDto>(user);
             return Ok(userDto);
@@ -48,7 +46,7 @@ namespace API.Controllers
         [HttpGet("address")]
         public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
-            string email = this.GetEmailFromClaimsPrincipal();
+            string email = HttpContext.User.GetUserEmail();
             AppUser user = await _userManager.Users.Include(p => p.Address).SingleOrDefaultAsync(p => p.Email == email);
             AddressDto address = _mapper.Map<Address, AddressDto>(user.Address);
             return Ok(address);
@@ -58,7 +56,7 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult<AddressDto>> UpdateAddress(AddressDto oldAddress)
         {
-            string email = this.GetEmailFromClaimsPrincipal();
+            string email = HttpContext.User.GetUserEmail();
             AppUser user = await _userManager.Users.Include(p => p.Address).SingleOrDefaultAsync(p => p.Email == email);
             user.Address = _mapper.Map<AddressDto, Address>(oldAddress);
             IdentityResult identityResult = await _userManager.UpdateAsync(user);
@@ -114,11 +112,6 @@ namespace API.Controllers
 
             UserDto userDto = _mapper.Map<AppUser, UserDto>(user);
             return Ok(userDto);
-        }
-
-        private string GetEmailFromClaimsPrincipal()
-        {
-            return HttpContext.User?.Claims?.SingleOrDefault(p => p.Type == ClaimTypes.Email).Value;
         }
     }
 }
