@@ -12,6 +12,7 @@ import { HomeModule } from './home/home.module';
 
 import { ErrorInterceptorService } from './core/interceptors/error-interceptor.service';
 import { LoadingInterceptorService } from './core/interceptors/loading-interceptor.service';
+import { AuthorizationInterceptor } from './core/interceptors/authorization-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LoadingInterceptorService } from './core/interceptors/loading-intercept
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

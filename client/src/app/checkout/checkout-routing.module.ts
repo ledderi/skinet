@@ -4,9 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CheckoutComponent } from './checkout.component';
 import { IsUserAuthorized } from './user-authorized.guard';
+import { CheckoutSuccessComponent } from './checkout-success/checkout-success.component';
 
 const routes: Routes = [
-  { path: '', component: CheckoutComponent, canActivate: [IsUserAuthorized] }
+  { path: '', component: CheckoutComponent, canActivate: [IsUserAuthorized] },
+  { path: 'success', component: CheckoutSuccessComponent }
 ];
 
 @NgModule({

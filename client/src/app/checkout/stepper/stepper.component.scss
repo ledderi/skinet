@@ -1,0 +1,17 @@
+.nav {
+    background-color: #f9fafb;
+    height: 50px;
+    align-items: center;
+
+    button {
+        width: 100%;
+        border: none;
+        font-weight: bold;
+        outline: none;
+        background-color: #f9fafb;
+        &.active {
+            background-color: orange;
+            color: white;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+<table class="table table-hover">
+    <thead class="table-light">
+        <tr class="header">
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th *ngIf="showButtons">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="body" *ngFor="let item of items">
+            <td>
+                <img src="{{ item.pictureUrl }}">
+                <div class="product-name">
+                    <a routerLink="/shop/{{ item.productId }}">{{ item.productName }}</a>
+                    <div>Type: {{ item.type }}</div>
+                </div>
+            </td>
+            <td><strong>{{ item.price | currency}}</strong></td>
+            <td>
+                <div>
+                    <i *ngIf="showButtons" class="fa fa-minus-circle" (click)="decrementProductQuantity(item)"></i>
+                    <div class="quantity"><strong>{{ item.quantity }}</strong></div>
+                    <i *ngIf="showButtons" class="fa fa-plus-circle" (click)="incrementProductQuantity(item)"></i>
+                </div>
+            </td>
+            <td>
+                <strong>{{ item.price * item.quantity | currency }}</strong>
+            </td>
+            <td *ngIf="showButtons">
+                <i class="fa fa-trash" (click)="deleteProduct(item)"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>

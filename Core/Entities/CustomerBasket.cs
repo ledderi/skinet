@@ -15,6 +15,8 @@ namespace Core.Entities
         }
 
         public string Id { get; set; }
+        public decimal ShippingAndHandling { get; set; }
+        public int DeliveryMethodId { get; set; }
         public List<BasketItem> Items { get; set; }
     }
 }

@@ -1,0 +1,21 @@
+.order-summary {
+    .message {
+        font-style: italic;
+        font-size: 0.9em;
+        margin-bottom: 1em;
+    }
+
+    .totals {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .title {
+            color: #aeaeae;
+        }
+    }
+}
+
+button {
+    width: 100%;
+}

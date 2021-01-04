@@ -19,6 +19,7 @@ namespace API.Dtos
         public DateTime OrderDate { get; set; }
         public string Status { get; set; }
         public string DeliveryMethod { get; set; }
+        public int DeliveryMethodId { get; set; }
         public decimal ShippingPrice { get; set; }
         public string BuyerEmail { get; set; }
         public decimal SubTotal { get; set; }

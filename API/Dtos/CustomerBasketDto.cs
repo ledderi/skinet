@@ -7,6 +7,8 @@ namespace API.Dtos
     {
         [Required]
         public string Id { get; set; }
+        public decimal ShippingAndHandling { get; set; }
+        public int DeliveryMethodId { get; set; }
         public IEnumerable<BasketItemDto> Items { get; set; }
     }
 

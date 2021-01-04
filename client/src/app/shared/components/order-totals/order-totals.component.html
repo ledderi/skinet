@@ -1,0 +1,35 @@
+<table class="table order-summary" *ngIf="orderTotals$ | async as orderTotals">
+    <thead class="table-light">
+        <tr>
+            <th><strong>Order Summary</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <div class="message">Shipping costs will be added depending on choices made during checkout</div>
+                <div class="totals">
+                    <div class="title"><strong>Order Subtotal</strong></div>
+                    <div><strong>{{ orderTotals.subTotal | currency}}</strong></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="totals">
+                    <div class="title"><strong>Shipping and handling</strong></div>
+                    <div><strong>{{ orderTotals.shipping | currency}}</strong></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="totals">
+                    <div class="title"><strong>Total</strong></div>
+                    <div><strong>{{ orderTotals.shipping + orderTotals.subTotal | currency}}</strong></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div><button *ngIf="showCheckOutButton" class="btn btn-outline-warning" routerLink="/checkout"><strong>Proceed to checkout</strong></button></div>

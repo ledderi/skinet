@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
+import { IAddress } from '../shared/models/address';
 
 import { ILogin } from '../shared/models/login';
 import { IRegister } from '../shared/models/register';
@@ -29,7 +30,7 @@ export class AccountService {
       return;
     }
 
-    this.http.get<IUser>(this.apiUrl, { headers: { Authorization: `Bearer ${token}` } } )
+    this.http.get<IUser>(this.apiUrl)
         .pipe(map(user => {
           this.currentUserSource.next(user);
         })
@@ -62,5 +63,13 @@ export class AccountService {
 
   checkEmailExist = (email: string): Observable<boolean> => {
     return this.http.get<boolean>(`${this.apiUrl}/emailexist?email=${email}`);
+  }
+
+  getUserAddress = (): Observable<IAddress> => {
+    return this.http.get<IAddress>(`${this.apiUrl}/address`);
+  }
+
+  updateUserAddress = (address: IAddress): Observable<IAddress> => {
+    return this.http.put<IAddress>(`${this.apiUrl}`, address);
   }
 }

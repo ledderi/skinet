@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
@@ -8,18 +9,23 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { PaginationHeaderComponent } from './components/pagination-header/pagination-header.component';
 import { RouterModule } from '@angular/router';
 import { TextInputComponent } from './components/text-input/text-input.component';
+import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
+import { BasketSummeryComponent } from './components/basket-summery/basket-summery.component';
 
 @NgModule({
   declarations: [
     PaginationComponent,
     PaginationHeaderComponent,
-    TextInputComponent
+    TextInputComponent,
+    OrderTotalsComponent,
+    BasketSummeryComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     HttpClientModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ReactiveFormsModule
   ],
   exports: [
     CommonModule,
@@ -27,7 +33,10 @@ import { TextInputComponent } from './components/text-input/text-input.component
     PaginationModule,
     PaginationComponent,
     PaginationHeaderComponent,
-    TextInputComponent
+    TextInputComponent,
+    OrderTotalsComponent,
+    ReactiveFormsModule,
+    BasketSummeryComponent
   ]
 })
 export class SharedModule { }

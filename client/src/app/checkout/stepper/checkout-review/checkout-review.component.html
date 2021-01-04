@@ -1,0 +1,8 @@
+<h3>Basket summery</h3>
+<div *ngIf="basket$ | async as basket">
+    <app-basket-summery [items]="basket.items"></app-basket-summery>
+</div>
+<div class="move-back-next">
+    <button type="button" cdkStepperPrevious class="btn btn-outline-success"><i class="fa fa-angle-left"></i> Back to Delivery</button>
+    <button type="button" cdkStepperNext class="btn btn-success">Go to Payment <i class="fa fa-angle-right"></i></button>
+</div>

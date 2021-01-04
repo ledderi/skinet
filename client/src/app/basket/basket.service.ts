@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
+import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
@@ -82,6 +83,24 @@ export class BasketService {
     }
   }
 
+  setShippingAndHandling = (deliveryMethod: IDeliveryMethod): void => {
+    const basket = this.getBasketValue();
+    basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingAndHandling = deliveryMethod.price;
+    this.setBasket(basket);
+  }
+
+  getBasketValue(): Basket {
+    return this.basketSource.getValue();
+  }
+
+  clearBasket = (): void => {
+    localStorage.removeItem('basket-id');
+    this.basketSource.next(null);
+    this.basketTotalsSource.next(null);
+    this.cartSize.next(0);
+  }
+
   private setBasket = (basket: IBasket): void => {
     this.http.post<Basket>(this.apiUrl, basket)
       .subscribe(
@@ -107,10 +126,6 @@ export class BasketService {
     ).subscribe();
   }
 
-  private getBasketValue(): Basket {
-    return this.basketSource.getValue();
-  }
-
   private mapProductToBasketItem(product: IProduct, quantity: number): IBasketItem {
     return { productId: product.id,
       productName: product.name,
@@ -123,7 +138,8 @@ export class BasketService {
   private calculateTotalBasket(): IBasketTotals {
     const basket = this.getBasketValue();
     const subTotal = basket.items.reduce((a, b) => a + (b.quantity * b.price), 0);
+    const shipping = basket.shippingAndHandling;
 
-    return { shipping: 10, subTotal };
+    return { shipping, subTotal };
   }
 }

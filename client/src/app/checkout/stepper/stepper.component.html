@@ -1,0 +1,8 @@
+<ul class="nav nav-justified">
+    <li class="nav-item" *ngFor="let step of steps; let i = index;">
+        <button [ngClass]="{active: selectedIndex === i}" class="nav-link text-uppercase" (click)="selectStepByIndex(i)">{{ step.label }} : {{ step.completed }}</button>
+    </li>
+</ul>
+<div class="container">
+    <ng-container [ngTemplateOutlet]="selected.content"></ng-container>
+</div>
