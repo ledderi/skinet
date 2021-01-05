@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./checkout-success.component.scss']
 })
 export class CheckoutSuccessComponent implements OnInit {
+  viewMessage = 'View your order';
+
   private orderId: number;
 
   constructor(private router: Router) {
@@ -16,10 +18,17 @@ export class CheckoutSuccessComponent implements OnInit {
     if (state) {
       this.orderId = state.orderId;
       console.log(this.orderId);
+    } else {
+      this.viewMessage = 'View your orders';
     }
   }
 
   ngOnInit(): void {
+  }
+
+  viewOrder(): void {
+    const url = this.orderId ? `orders/${this.orderId}` : 'orders' ;
+    this.router.navigateByUrl(url);
   }
 
 }

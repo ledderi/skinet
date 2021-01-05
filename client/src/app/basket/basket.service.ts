@@ -5,8 +5,9 @@ import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
-import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
+import { Basket, IBasket, IBasketItem } from '../shared/models/basket';
 import { IDeliveryMethod } from '../shared/models/deliveryMethod';
+import { IOrderTotals } from '../shared/models/order-totals';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
@@ -19,8 +20,8 @@ export class BasketService {
   private basketSource: BehaviorSubject<IBasket> = new BehaviorSubject(null);
   basket$: Observable<Basket> = this.basketSource.asObservable();
 
-  private basketTotalsSource: BehaviorSubject<IBasketTotals> = new BehaviorSubject(null);
-  basketTotals$: Observable<IBasketTotals> = this.basketTotalsSource.asObservable();
+  private basketTotalsSource: BehaviorSubject<IOrderTotals> = new BehaviorSubject(null);
+  basketTotals$: Observable<IOrderTotals> = this.basketTotalsSource.asObservable();
 
   private apiUrl = `${environment.apiUrl}/basket`;
 
@@ -135,7 +136,7 @@ export class BasketService {
       type: product.productType, pictureUrl: product.pictureUrl};
   }
 
-  private calculateTotalBasket(): IBasketTotals {
+  private calculateTotalBasket(): IOrderTotals {
     const basket = this.getBasketValue();
     const subTotal = basket.items.reduce((a, b) => a + (b.quantity * b.price), 0);
     const shipping = basket.shippingAndHandling;

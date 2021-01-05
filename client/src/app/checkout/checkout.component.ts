@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { AccountService } from '../account/account.service';
 import { BasketService } from '../basket/basket.service';
+import { IOrderTotals } from '../shared/models/order-totals';
 
 // import { CdkStepper } from '@angular/cdk/stepper';
 
@@ -13,12 +15,15 @@ import { BasketService } from '../basket/basket.service';
 })
 export class CheckoutComponent implements OnInit, AfterViewInit {
   form: FormGroup;
+  totals$: Observable<IOrderTotals>;
 
   // @ViewChild('stepper') stepper: CdkStepper;
 
   constructor(private accountService: AccountService, private basketService: BasketService) { }
 
   ngOnInit(): void {
+    this.totals$ = this.basketService.basketTotals$;
+
     this.createForm();
     this.getDeliveryAddress();
     this.getDeliveryMethodId();

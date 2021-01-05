@@ -1,5 +1,5 @@
 <table class="table table-hover">
-    <thead class="table-light">
+    <thead class="thead-light">
         <tr class="header">
             <th>Product</th>
             <th>Price</th>
@@ -14,7 +14,7 @@
                 <img src="{{ item.pictureUrl }}">
                 <div class="product-name">
                     <a routerLink="/shop/{{ item.productId }}">{{ item.productName }}</a>
-                    <div>Type: {{ item.type }}</div>
+                    <div *ngIf="item.type">Type: {{ item.type }}</div>
                 </div>
             </td>
             <td><strong>{{ item.price | currency}}</strong></td>

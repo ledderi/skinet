@@ -27,4 +27,12 @@ export class CheckoutService {
   createOrder = (newOrder: IOrderToApi): Observable<IOrderFromApi> => {
     return this.http.post<IOrderFromApi>(`${this.baseUrl}`, newOrder);
   }
+
+  getOrders = (): Observable<IOrderFromApi[]> => {
+    return this.http.get<IOrderFromApi[]>(this.baseUrl);
+  }
+
+  getOrder = (id: number): Observable<IOrderFromApi> => {
+    return this.http.get<IOrderFromApi>(`${this.baseUrl}/${id}`);
+  }
 }

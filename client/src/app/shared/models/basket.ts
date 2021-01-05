@@ -29,8 +29,3 @@ export class Basket implements IBasket {
         this.shippingAndHandling = 0;
     }
 }
-
-export interface IBasketTotals {
-    subTotal: number;
-    shipping: number;
-}

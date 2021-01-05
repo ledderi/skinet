@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { BasketService } from 'src/app/basket/basket.service';
 import { IBasketItem } from '../../models/basket';
+import { IOrderItem } from '../../models/order';
 
 @Component({
   selector: 'app-basket-summery',
@@ -9,7 +10,7 @@ import { IBasketItem } from '../../models/basket';
   styleUrls: ['./basket-summery.component.scss']
 })
 export class BasketSummeryComponent implements OnInit {
-  @Input() items: IBasketItem[] = [];
+  @Input() items: IBasketItem[] | IOrderItem[] = [];
   @Input() showButtons = false;
 
   constructor(private basketService: BasketService) { }

@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-7"></div>
             <div class="col-5">
-                <app-order-totals showCheckOutButton="true"></app-order-totals>
+                <app-order-totals [totals]="totals$ | async" [showCheckOutButton]="true" [showMessage]="true"></app-order-totals>
             </div>
         </div>
     </div>

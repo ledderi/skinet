@@ -1,4 +1,4 @@
-<table class="table order-summary" *ngIf="orderTotals$ | async as orderTotals">
+<table class="table order-summary" *ngIf="totals">
     <thead class="table-light">
         <tr>
             <th><strong>Order Summary</strong></th>
@@ -7,10 +7,10 @@
     <tbody>
         <tr>
             <td>
-                <div class="message">Shipping costs will be added depending on choices made during checkout</div>
+                <div *ngIf="showMessage" class="message">Shipping costs will be added depending on choices made during checkout</div>
                 <div class="totals">
                     <div class="title"><strong>Order Subtotal</strong></div>
-                    <div><strong>{{ orderTotals.subTotal | currency}}</strong></div>
+                    <div><strong>{{ totals.subTotal | currency}}</strong></div>
                 </div>
             </td>
         </tr>
@@ -18,7 +18,7 @@
             <td>
                 <div class="totals">
                     <div class="title"><strong>Shipping and handling</strong></div>
-                    <div><strong>{{ orderTotals.shipping | currency}}</strong></div>
+                    <div><strong>{{ totals.shipping | currency}}</strong></div>
                 </div>
             </td>
         </tr>
@@ -26,7 +26,7 @@
             <td>
                 <div class="totals">
                     <div class="title"><strong>Total</strong></div>
-                    <div><strong>{{ orderTotals.shipping + orderTotals.subTotal | currency}}</strong></div>
+                    <div><strong>{{ totals.shipping + totals.subTotal | currency}}</strong></div>
                 </div>
             </td>
         </tr>
